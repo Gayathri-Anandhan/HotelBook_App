@@ -2,6 +2,8 @@ package com.example.hotelbookapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -84,11 +86,18 @@ public class HotelController {
     }
 
     @GetMapping("/search")
-    public List<hotel> searchHotels(
-            @RequestParam("city") String city,
-            @RequestParam("checkIn") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
-            @RequestParam("checkOut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut) {
+    public ResponseEntity<List<hotel>> searchHotels(
+            @RequestParam String city,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut) {
 
-        return HotelService.searchHotels(city, checkIn, checkOut);
+        try {
+            List<hotel> hotels = HotelService.searchHotels(city, checkIn, checkOut);
+            return ResponseEntity.ok(hotels);
+        } catch (Exception e) {
+            // log the error for debugging
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
