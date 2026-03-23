@@ -1,6 +1,7 @@
 package com.example.hotelbookapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.example.hotelbookapp.entity.hotel;
@@ -25,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class HotelController {
     @Autowired
     private HotelService HotelService;
+
     @GetMapping("/allhotels")
     public List<hotel> getAllHotels() {
         return HotelService.getAllHotels();
@@ -37,7 +40,7 @@ public class HotelController {
 
     @GetMapping("/filterhotels")
     public hotel filterHotels(@RequestParam("price") Integer price,
-            @RequestParam("HotelName") String HotelName,@RequestParam("City") String City) {
+            @RequestParam("HotelName") String HotelName, @RequestParam("City") String City) {
         return HotelService.getHotelByFilters(HotelName, City, price);
     }
 
@@ -78,5 +81,14 @@ public class HotelController {
         r.setImageUrl(imageUrl);
 
         return HotelService.savedetails(r);
+    }
+
+    @GetMapping("/search")
+    public List<hotel> searchHotels(
+            @RequestParam("city") String city,
+            @RequestParam("checkIn") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
+            @RequestParam("checkOut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut) {
+
+        return HotelService.searchHotels(city, checkIn, checkOut);
     }
 }

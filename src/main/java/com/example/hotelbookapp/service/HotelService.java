@@ -11,6 +11,7 @@ import java.util.Map;
 
 import com.cloudinary.Cloudinary;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -72,5 +73,10 @@ public class HotelService {
 
     public List<hotel> searchHotelsByCity(String city) {
         return hotelDetailsRepo.findByCity(city);
+    }
+
+    public List<hotel> searchHotels(String city, LocalDate checkIn, LocalDate checkOut) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'searchHotels'");
     }
 }
