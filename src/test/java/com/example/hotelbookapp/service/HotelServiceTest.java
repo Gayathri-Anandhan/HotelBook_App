@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -60,7 +61,7 @@ public class HotelServiceTest {
     void testGetAllProducts() {
         when(hotelDetailsRepo.findAll()).thenReturn(Arrays.asList(h));
 
-        List<hotel> list = hotelService.getAllProducts();
+        List<hotel> list = hotelService.getAllHotels();
 
         assertEquals(1, list.size());
     }
