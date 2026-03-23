@@ -85,19 +85,15 @@ public class HotelController {
         return HotelService.savedetails(r);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<hotel>> searchHotels(
-            @RequestParam String city,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut) {
+    @Autowired
+    private HotelService hotelService;
 
-        try {
-            List<hotel> hotels = HotelService.searchHotels(city, checkIn, checkOut);
-            return ResponseEntity.ok(hotels);
-        } catch (Exception e) {
-            // log the error for debugging
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    @GetMapping("/search")
+    public List<hotel> searchHotels(
+            @RequestParam("city") String city,
+            @RequestParam("checkIn") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
+            @RequestParam("checkOut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut) {
+
+        return hotelService.searchHotels(city, checkIn, checkOut);
     }
 }

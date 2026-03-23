@@ -10,6 +10,7 @@ import com.example.hotelbookapp.entity.hotel;
 
 public interface hoteldetailsRepo extends JpaRepository<hotel, Long> {
     List<hotel> findByrating(String rating);
+    List<hotel> findByCityIgnoreCase(String city);
 
     default hotel findByHotelNameAndCityAndPrice(
             String HotelName,
