@@ -22,7 +22,7 @@ public class HotelService {
         return hotelDetailsRepo.save(e);
     }
 
-    public List<hotel> getAllProducts() {
+    public List<hotel> getAllHotels() {
         return hotelDetailsRepo.findAll();
     }
 
@@ -36,27 +36,27 @@ public class HotelService {
     }
 
     public hotel updateHotel(Long id, hotel updateProps) {
-        hotel exisProduct = hotelDetailsRepo.findById(id)
+        hotel exisHotel = hotelDetailsRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Hotel with this id: " + id + "is not found"));
-        exisProduct.setHotelName(updateProps.getHotelName());
-        exisProduct.setDescription(updateProps.getDescription());
-        exisProduct.setCity(updateProps.getCity());
-        exisProduct.setAddress(updateProps.getAddress());
-        exisProduct.setRating(updateProps.getRating());
-        exisProduct.setImageUrl(updateProps.getImageUrl());
+        exisHotel.setHotelName(updateProps.getHotelName());
+        exisHotel.setDescription(updateProps.getDescription());
+        exisHotel.setCity(updateProps.getCity());
+        exisHotel.setAddress(updateProps.getAddress());
+        exisHotel.setRating(updateProps.getRating());
+        exisHotel.setImageUrl(updateProps.getImageUrl());
         try {
-            return hotelDetailsRepo.save(exisProduct);
+            return hotelDetailsRepo.save(exisHotel);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return exisProduct;
+        return exisHotel;
     }
 
     public hotel deleteHotel(Long id) {
-        hotel exisProduct = hotelDetailsRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+        hotel exisHotel = hotelDetailsRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Hotel not found"));
         hotelDetailsRepo.deleteById(id);
-        return exisProduct;
+        return exisHotel;
     }
     @Autowired
     private Cloudinary cloudinary;

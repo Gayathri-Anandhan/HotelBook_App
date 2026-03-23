@@ -20,18 +20,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
-@RequestMapping("HotelBookApp/api/products")
+@RequestMapping("hotelbook/api/hotel/")
 
 public class HotelController {
     @Autowired
     private HotelService HotelService;
-    @GetMapping("/allproducts")
-    public List<hotel> getAllProducts() {
-        return HotelService.getAllProducts();
+    @GetMapping("/allhotels")
+    public List<hotel> getAllHotels() {
+        return HotelService.getAllHotels();
     }
 
-    @GetMapping("/viewproducts")
-    public hotel viewProduct(@RequestParam("id") Long id) {
+    @GetMapping("/viewhotels")
+    public hotel viewHotel(@RequestParam("id") Long id) {
         return HotelService.getHotelById(id);
     }
 
@@ -41,13 +41,13 @@ public class HotelController {
         return HotelService.getHotelByFilters(HotelName, City, price);
     }
 
-    @PutMapping(value = "/updateProducts", consumes = "multipart/form-data")
-    public hotel updateProduct(
-            @RequestParam("product") String productJson,
+    @PutMapping(value = "/updateHotels", consumes = "multipart/form-data")
+    public hotel updateHotel(
+            @RequestParam("hotel") String hotelJson,
             @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
 
         ObjectMapper mapper = new ObjectMapper();
-        hotel r = mapper.readValue(productJson, hotel.class);
+        hotel r = mapper.readValue(hotelJson, hotel.class);
 
         if (file != null && !file.isEmpty()) {
             String imageUrl = imageService.uploadImage(file);
@@ -57,22 +57,22 @@ public class HotelController {
         return HotelService.updateHotel(r.getId(), r);
     }
 
-    @DeleteMapping("/deleteProducts")
-    public String deleteProduct(@RequestParam("id") Long id) {
-        hotel delprops = HotelService.deleteHotel(id);
-        return "Product deleted successfully with id: " + id;
+    @DeleteMapping("/deleteHotels")
+    public String deleteHotel(@RequestParam("id") Long id) {
+        hotel delhotel = HotelService.deleteHotel(id);
+        return "Hotel deleted successfully with id: " + id;
     }
 
     @Autowired
     private ImageService imageService;
 
-    @PostMapping(value = "/saveProduct", consumes = "multipart/form-data")
-    public hotel saveProduct(
-            @RequestParam("Product") String productJson,
+    @PostMapping(value = "/saveHotel", consumes = "multipart/form-data")
+    public hotel Hotel(
+            @RequestParam("hotel") String hotelJson,
             @RequestParam("file") MultipartFile file) throws Exception {
 
         ObjectMapper mapper = new ObjectMapper();
-        hotel r = mapper.readValue(productJson, hotel.class);
+        hotel r = mapper.readValue(hotelJson, hotel.class);
 
         String imageUrl = imageService.uploadImage(file);
         r.setImageUrl(imageUrl);
