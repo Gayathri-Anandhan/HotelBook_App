@@ -76,7 +76,6 @@ public class HotelService {
     }
 
     public List<hotel> searchHotels(String city, LocalDate checkIn, LocalDate checkOut) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchHotels'");
+        return hotelDetailsRepo.findByCityIgnoreCase(city);
     }
 }
